@@ -1,0 +1,2 @@
+C:\Users\s.coulomb\Desktop\Vie d'entreprise\Dojo\GitBetclic\TCG\Tcg.Kata\Tcg.Kata\bin\Debug\Tcg.Kata.exe.config
+C:\Users\s.coulomb\Desktop\Vie d'entreprise\Dojo\GitBetclic\TCG\Solution C#\Tcg.Kata\Tcg.Kata\bin\Debug\Tcg.Kata.exe.config

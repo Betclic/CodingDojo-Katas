@@ -1,0 +1,185 @@
+﻿<Window x:Class="Tcg.Kata.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:classes="clr-namespace:Tcg.Kata.Classes"
+        mc:Ignorable="d"
+        Title=".:: Hearthstone Kata ::." Height="961" Width="1281" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="Resources/icon.png">
+    <Window.Resources>
+        <classes:BoolToColorConverter x:Key="boolconverter" />
+        <classes:BoolToVisibilityConverter x:Key="visibilityconverter" />
+        <classes:RevertBoolToVisibilityConverter x:Key="revertVisibilityconverter" />
+
+        <Storyboard x:Key="animateFadeIn">
+            <DoubleAnimation BeginTime="0:0:0.0" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+            <DoubleAnimation BeginTime="0:0:1.0" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Style TargetType="TextBlock" x:Key="ActionStyle">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <Trigger Property="Visibility" Value="Visible">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource animateFadeIn}"></BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <ImageBrush x:Name="MainBackground" ImageSource="Resources/background01.png" Stretch="None"/>
+    </Window.Background>
+    <Grid>
+        <TextBlock x:Name="player1Name" Text="{Binding Player1.Name}" HorizontalAlignment="Left" Margin="0,791,0,0" 
+               VerticalAlignment="Top" FontSize="16" FontWeight="Bold"
+               Background="{Binding Player1.IsActive, Mode=OneWay, Converter={StaticResource boolconverter}}" Height="50" Width="116" TextAlignment="Center" />
+        <TextBlock x:Name="player2Name" Text="{Binding Player2.Name}" HorizontalAlignment="Left" Margin="0,18,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Height="53" TextAlignment="Center"/>
+        <Rectangle x:Name="player1Active" Fill="{Binding Player1.IsActive, Mode=OneWay, Converter={StaticResource boolconverter}}" 
+                   HorizontalAlignment="Left" Height="169" Margin="46,437,0,0" VerticalAlignment="Top" Width="25"/>
+        <Rectangle x:Name="player2Active" Fill="{Binding Player2.IsActive, Mode=OneWay, Converter={StaticResource boolconverter}}" 
+                   HorizontalAlignment="Left" Height="163" Margin="46,269,0,0" VerticalAlignment="Top" Width="25"/>
+        <TextBlock x:Name="player2Health" 
+                   Text="{Binding Player2.Health}" 
+                   HorizontalAlignment="Left" Margin="685,205,0,0" TextWrapping="Wrap" 
+                   VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Foreground="White" TextAlignment="Justify" Width="24" Height="29"/>
+        <TextBlock x:Name="player1Health"
+                   Text="{Binding Player1.Health}" 
+                   HorizontalAlignment="Left" Margin="687,766,0,0" TextWrapping="Wrap" 
+                   VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
+        <TextBlock x:Name="player2DeckSize" 
+                   Text="{Binding Player2.DeckSize}"
+                   HorizontalAlignment="Left" Margin="1199,283,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="Black" Foreground="White" FontWeight="Bold"/>
+        <TextBlock x:Name="player1DeckSize" 
+                   Text="{Binding Player1.DeckSize}"
+                   HorizontalAlignment="Left" Margin="1212,540,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" FontWeight="Bold"/>
+        <Button x:Name="button" Content="End Of Turn" 
+                Command="{Binding Player1.EndOfTurnCommand}"
+                IsEnabled="{Binding Player1.IsActive}"
+                HorizontalAlignment="Left" Margin="1097,389,0,0" VerticalAlignment="Top" Width="129" Height="56"/>
+        <TextBlock x:Name="player1ManaString" 
+                   Text="{Binding Player1.ManaString}" 
+                   HorizontalAlignment="Left" Margin="862,853,0,0" TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Height="27" Width="80" FontSize="20" FontWeight="Bold" Foreground="White"  TextAlignment="Center"/>
+
+        <TextBlock x:Name="player2ManaString" 
+                   Text="{Binding Player2  .ManaString}" 
+                   HorizontalAlignment="Left" Margin="826,24,0,0" TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Height="27" Width="80" FontSize="20" FontWeight="Bold" Foreground="White" TextAlignment="Center"/>
+
+        <ListView ItemsSource="{Binding Player1.HandVM}"  Margin="402,810,415,0" SelectedItem="{Binding Player1.SelectedCard}" 
+                  IsEnabled="{Binding Player1.IsActive}"
+                  Height="120" Width="455">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Background="Black"></StackPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="-3,0,0,0">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
+                        </Border.Background>
+                        <Grid Height="110" Width="80" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Action}" Foreground="{Binding Color}" FontWeight="Bold" HorizontalAlignment="Stretch" Height="Auto" Margin="14,78,12,10" FontSize="12" TextAlignment="Center" />
+                            <TextBlock Text="{Binding Value}" FontWeight="Bold"  HorizontalAlignment="Center" Height="25" Margin="4,-5,63,92" Foreground="White" FontSize="20" TextAlignment="Justify" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView Name="player1Slots" ItemsSource="{Binding Player1.Slots}"  Margin="941,842,20,40" Height="50" Background="Transparent" BorderThickness="0">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Background="Transparent"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="30" Width="30" HorizontalAlignment="Center" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="Resources/manaslot.png" Stretch="Uniform"/>
+                        </Grid.Background>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView x:Name="player1Manas" ItemsSource="{Binding Player1.Manas}"  Margin="941,842,20,40" Height="50" Background="Transparent" BorderThickness="0">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Background="Transparent"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="30" Width="30" HorizontalAlignment="Center" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="Resources/manafull.png" Stretch="Uniform"/>
+                        </Grid.Background>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+        <StackPanel HorizontalAlignment="Center" Height="700" Margin="143,60,0,0" VerticalAlignment="Center" Width="700"
+                    Visibility="{Binding HasWinner, Converter={StaticResource visibilityconverter}}">
+            <Image Source="Resources/defeat.png"  Visibility="{Binding Player1Win, Converter={StaticResource revertVisibilityconverter}}"/>
+            <Image Source="Resources/victory.png"  Visibility="{Binding Player1Win, Converter={StaticResource visibilityconverter}}"/>
+        </StackPanel>
+        <ListView Name="player2Hand" ItemsSource="{Binding Player2.HandVM}" SelectedItem="{Binding Player2.SelectedCard}" Margin="426,-40,447,853" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" Width="400" RenderTransformOrigin="0.5,0.5">
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="Resources/card_back.png" Width="66" Stretch="UniformToFill"></Image>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <TextBlock x:Name="player2Action" 
+                   Text="{Binding Player2.Action}" 
+                   Foreground="{Binding Player2.ActionColor}"
+                   Visibility="{Binding Player2.ActionReady, Converter={StaticResource visibilityconverter}}"
+                   HorizontalAlignment="Left" Margin="636,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" FontWeight="Bold" TextAlignment="Center"
+                   Style="{StaticResource ActionStyle}">
+        </TextBlock>
+
+        <TextBlock x:Name="player1Action" 
+                   Text="{Binding Player1.Action}"
+                   Foreground="{Binding Player1.ActionColor}"
+                   Visibility="{Binding Player1.ActionReady, Converter={StaticResource visibilityconverter}}"
+                   HorizontalAlignment="Left" Margin="636,460,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="72" FontWeight="Bold" TextAlignment="Center"
+                   Style="{StaticResource ActionStyle}" >
+        </TextBlock>
+
+    </Grid>
+</Window>

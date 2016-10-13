@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tcg.Kata", "Tcg.Kata\Tcg.Kata.csproj", "{0D3EDA04-61C6-4FBE-A377-113349C9EAF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tcg.Core", "Tcg.Core\Tcg.Core.csproj", "{9F2BB392-FE95-41BB-AC26-EA074E6480F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tcg.Tests", "Tcg.Tests\Tcg.Tests.csproj", "{015CDDE6-57AE-48C5-A228-F4B29453B7EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D3EDA04-61C6-4FBE-A377-113349C9EAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D3EDA04-61C6-4FBE-A377-113349C9EAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D3EDA04-61C6-4FBE-A377-113349C9EAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D3EDA04-61C6-4FBE-A377-113349C9EAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2BB392-FE95-41BB-AC26-EA074E6480F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2BB392-FE95-41BB-AC26-EA074E6480F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2BB392-FE95-41BB-AC26-EA074E6480F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2BB392-FE95-41BB-AC26-EA074E6480F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{015CDDE6-57AE-48C5-A228-F4B29453B7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{015CDDE6-57AE-48C5-A228-F4B29453B7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{015CDDE6-57AE-48C5-A228-F4B29453B7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{015CDDE6-57AE-48C5-A228-F4B29453B7EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
